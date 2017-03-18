@@ -1,11 +1,15 @@
-#grid-container {
-    border: 2px solid black;
-    width: 600px;
-    height: 600px;
-    margin: 50px auto;
+h2 {
+    text-align: center;
+}
+
+.info-block {
+    display: block;
+    padding: 5px;
+    margin: 0 auto;
 }
 
 .row {
+    position: relative;
     display: block;
     height: 100px;
     width: 600px;
@@ -13,6 +17,7 @@
 }
 
 .block {
+    position: relative;
     display: inline-block;
     height: 100px;
     width: 100px;
@@ -21,3 +26,99 @@
     box-sizing: border-box;
     text-align: center;
 }
+
+.rover {
+    position: absolute;
+    height: 50px;
+    width: 40px;
+    top: 25%;
+    left: 30%;
+    border-radius: 10px 10px 2px 2px;
+    background-color: #929cb5;
+}
+
+.wheel {
+    position: absolute;
+    background-color: black;
+    height: 10px;
+    width: 20px;
+    border-radius: 50% 50% 0 0 ;
+}
+
+.wheel1 {
+    -ms-transform: rotate(-90deg); /* IE 9 */
+    -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
+    transform: rotate(-90deg);
+    top: 10px;
+    left: -13px;
+}
+
+.wheel2 {
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+    transform: rotate(90deg);
+    top: 10px;
+    left: 33px;
+}
+
+.wheel3 {
+    -ms-transform: rotate(-90deg); /* IE 9 */
+    -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
+    transform: rotate(-90deg);
+    top: 35px;
+    left: -13px;
+}
+
+.wheel4 {
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+    transform: rotate(90deg);
+    top: 35px;
+    left: 33px;
+}
+
+.rover-box {
+    position: relative;
+    display: block;
+    border: 1px solid black;
+    margin: 2px auto;
+    width: 80%;
+    text-align: center;
+    padding: 10px;
+}
+
+#header-div {
+    display: block;
+}
+
+#info-container {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    height: 600px;
+    margin: 50px;
+    float: left;
+}
+
+#button-box {
+    position: relative;
+    border: none;
+    width: 100%;
+}
+
+#button-box > button {
+    display: inline;
+    position: relative;
+    font-size: 12px;
+}
+
+#grid-container {
+    display: inline-block;
+    position: relative;
+    border: 2px solid black;
+    width: 600px;
+    height: 600px;
+    margin: 50px auto;
+    float: left;
+}
+
