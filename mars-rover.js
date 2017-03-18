@@ -10,13 +10,14 @@
 
     // Create two rovers
     rover1 = $('<div id="rover1" class="rover">' +
-        '<div class="middle"></div>' +
+        '<div class="number">1</div>' +
         '<div class="wheel wheel1"></div>' +
         '<div class="wheel wheel2"></div>' +
         '<div class="wheel wheel3"></div>' +
         '<div class="wheel wheel4"></div>' +
         '</div>');
     rover2 = $('<div id="rover2" class="rover">' +
+        '<div class="number">2</div>' +
         '<div class="wheel wheel1"></div>' +
         '<div class="wheel wheel2"></div>' +
         '<div class="wheel wheel3"></div>' +
@@ -27,9 +28,24 @@
     groundCovered = [];
 
 
-    // Append both rovers to grid
-    $('#1-1').append(rover1);
-    $('#6-1').append(rover2);
+    $('#start-btn').click(function(){
+        placeRovers(rover1, rover2);
+        startGame(rover1, rover2);
+    });
+
+
+    function placeRovers (rover1, rover2){
+        $('#1-1').append(rover1);
+        $('#6-1').append(rover2);
+    }
+
+    function startGame (rover1, rover2){
+        activateRover(rover1);
+    }
+
+    function activateRover(rover){
+        rover.addClass("active-rover");
+    }
 
 
 })();
