@@ -8,6 +8,7 @@
 
     var rover1, rover2, direction, groundCovered;
 
+
     // Create two rovers
     rover1 = $('<div id="rover1" class="rover">' +
         '<div class="number">1</div>' +
@@ -28,24 +29,50 @@
     groundCovered = [];
 
 
+    var leftButton = $('#l-btn');
+    var middleButton = $('#m-btn');
+    var rightButton = $('#r-btn');
+
+    var startingPoint1 = $('#1-1');
+    var startingPoint2 = $('#6-1');
+
+
+    disable(leftButton, middleButton, rightButton);
+
     $('#start-btn').click(function(){
         placeRovers(rover1, rover2);
         startGame(rover1, rover2);
+
+        enable(leftButton, middleButton, rightButton);
     });
 
-
-    function placeRovers (rover1, rover2){
-        $('#1-1').append(rover1);
-        $('#6-1').append(rover2);
+    // Disable Button(s)
+    function disable() {
+        for (var i = 0; i < arguments.length; i++){
+        arguments[i].attr("disabled", true)
+        }
     }
 
-    function startGame (rover1, rover2){
-        activateRover(rover1);
+    // Enable Button(s)
+    function enable() {
+        for (var i = 0; i < arguments.length; i++){
+            arguments[i].attr("disabled", false)
+        }
+    }
+
+    function placeRovers (){
+        startingPoint1.append(rover1);   // Rover 1 starting point
+        startingPoint2.append(rover2);   // Rover 2 starting point
     }
 
     function activateRover(rover){
         rover.addClass("active-rover");
     }
+
+    function startGame(rover1, rover2){
+        activateRover(rover1);
+    }
+
 
 
 })();
