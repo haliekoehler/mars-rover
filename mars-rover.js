@@ -2,22 +2,19 @@
  * Created by HKoehler on 3/17/17.
  */
 
+'use strict';
+
 (function () {
 
-    'use strict';
-
-    var rover1, rover2, direction, groundCovered;
-
-
-    // Create two rovers
-    rover1 = $('<div id="rover1" class="rover">' +
+    // Create body of two rovers
+    var rover1Build = $('<div id="rover1" class="rover">' +
         '<div class="number">1</div>' +
         '<div class="wheel wheel1"></div>' +
         '<div class="wheel wheel2"></div>' +
         '<div class="wheel wheel3"></div>' +
         '<div class="wheel wheel4"></div>' +
         '</div>');
-    rover2 = $('<div id="rover2" class="rover">' +
+    var rover2Build = $('<div id="rover2" class="rover">' +
         '<div class="number">2</div>' +
         '<div class="wheel wheel1"></div>' +
         '<div class="wheel wheel2"></div>' +
@@ -25,25 +22,52 @@
         '<div class="wheel wheel4"></div>' +
         '</div>');
 
-    direction = ['n', 'e', 's', 'w'];
-    groundCovered = [];
 
+    var direction = ['n', 'e', 's', 'w'];
 
+    var rover1 = new Object ();
+        rover1.name = "Rover 1";
+        rover1.body = rover1Build;
+        rover1.x = 1;
+        rover1.y = 1;
+        rover1.d = direction[0];
+        rover1.active = false;
+
+    var rover2 = new Object();
+        rover2.name = "Rover 2";
+        rover2.body = rover2Build;
+        rover2.x = 6;
+        rover2.y = 1;
+        rover2.d = direction[0];
+        rover2.active = false;
+
+    var rovers = [rover1, rover2];
+
+    var startButton = $('#start-btn');
     var leftButton = $('#l-btn');
     var middleButton = $('#m-btn');
     var rightButton = $('#r-btn');
 
-    var startingPoint1 = $('#1-1');
-    var startingPoint2 = $('#6-1');
-
-
     disable(leftButton, middleButton, rightButton);
 
-    $('#start-btn').click(function(){
-        placeRovers(rover1, rover2);
-        startGame(rover1, rover2);
+    // ----- START BUTTON ----- //
+    startButton.click(function(){
+
+        console.log(rover1.x , rover1.y);
+        console.log(rover2.x, rover2.y);
+
+        startRovers(rover1, rover2);
+        console.log('Rovers Placed');
 
         enable(leftButton, middleButton, rightButton);
+        disable(startButton);
+
+        activateRover(rover1);
+        console.log(rover1.active);
+
+        middleButton.click(function(){
+            moveRover(rover1);
+        });
     });
 
     // Disable Button(s)
@@ -60,20 +84,44 @@
         }
     }
 
-    function placeRovers (){
-        startingPoint1.append(rover1);   // Rover 1 starting point
-        startingPoint2.append(rover2);   // Rover 2 starting point
+    function startRovers (){
+
+        var startingPoint1 = rover1.x.toString() + "-" + rover1.y.toString();
+        var startingPoint2 = rover2.x.toString() + "-" + rover2.y.toString();
+
+        console.log(startingPoint1);
+        console.log (startingPoint2);
+
+        $("#" + startingPoint1).append(rover1.body);   // Rover 1 starting point
+        $("#" + startingPoint2).append(rover2.body);   // Rover 2 starting point
+    }
+
+    function moveRover (rover){
+        console.log("original coords " + rover.x, rover.y, rover.d);
+
+        var x = rover.x;
+        var y = rover.y;
+        var d = rover.d;
+
+        if (d == "n"){
+            y += 1;
+        } else if (d == "e"){
+            x += 1;
+        } else if (d == "s"){
+            y -= 1;
+        } else if (d == "w"){
+            x -= 1;
+        }
+
+        var newPosition = x.toString() + "-" + y.toString();
+        console.log(newPosition);
+        return newPosition;
     }
 
     function activateRover(rover){
-        rover.addClass("active-rover");
+        rover.body.addClass("active-rover");
+        rover.active = true;
     }
-
-    function startGame(rover1, rover2){
-        activateRover(rover1);
-    }
-
-
 
 })();
 
