@@ -89,33 +89,27 @@
         var startingPoint1 = rover1.x.toString() + "-" + rover1.y.toString();
         var startingPoint2 = rover2.x.toString() + "-" + rover2.y.toString();
 
-        console.log(startingPoint1);
-        console.log (startingPoint2);
-
         $("#" + startingPoint1).append(rover1.body);   // Rover 1 starting point
         $("#" + startingPoint2).append(rover2.body);   // Rover 2 starting point
     }
 
+    // Move Rover Forward 1 Tile
     function moveRover (rover){
-        console.log("original coords " + rover.x, rover.y, rover.d);
 
-        var x = rover.x;
-        var y = rover.y;
-        var d = rover.d;
+        console.log ("From " + rover.x, rover.y, rover.d);
 
-        if (d == "n"){
-            y += 1;
-            console.log ("y + 1 = " + y);
-        } else if (d == "e"){
-            x += 1;
-        } else if (d == "s"){
-            y -= 1;
-        } else if (d == "w"){
-            x -= 1;
+        if (rover.d == "n"){
+            rover.y += 1;
+        } else if (rover.d == "e"){
+            rover.x += 1;
+        } else if (rover.d == "s"){
+            rover.y -= 1;
+        } else if (rover.d == "w"){
+            rover.x -= 1;
         }
 
-        var newPosition = x.toString() + "-" + y.toString();
-        console.log(newPosition);
+        console.log ("To " + rover.x, rover.y, rover.d);
+        var newPosition = rover.x.toString() + "-" + rover.y.toString();
 
         $("#" + newPosition).append(rover.body);
     }
