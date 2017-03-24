@@ -105,6 +105,7 @@
 
         if (d == "n"){
             y += 1;
+            console.log ("y + 1 = " + y);
         } else if (d == "e"){
             x += 1;
         } else if (d == "s"){
@@ -115,7 +116,8 @@
 
         var newPosition = x.toString() + "-" + y.toString();
         console.log(newPosition);
-        return newPosition;
+
+        $("#" + newPosition).append(rover.body);
     }
 
     function activateRover(rover){
