@@ -68,6 +68,10 @@
         middleButton.click(function(){
             moveRover(rover1);
         });
+
+        leftButton.click(function(){
+            turnLeft(rover1);
+        })
     });
 
     // Disable Button(s)
@@ -85,7 +89,6 @@
     }
 
     function startRovers (){
-
         var startingPoint1 = rover1.x.toString() + "-" + rover1.y.toString();
         var startingPoint2 = rover2.x.toString() + "-" + rover2.y.toString();
 
@@ -93,30 +96,65 @@
         $("#" + startingPoint2).append(rover2.body);   // Rover 2 starting point
     }
 
-    // Move Rover Forward 1 Tile
-    function moveRover (rover){
-
-        console.log ("From " + rover.x, rover.y, rover.d);
-
-        if (rover.d == "n"){
-            rover.y += 1;
-        } else if (rover.d == "e"){
-            rover.x += 1;
-        } else if (rover.d == "s"){
-            rover.y -= 1;
-        } else if (rover.d == "w"){
-            rover.x -= 1;
-        }
-
-        console.log ("To " + rover.x, rover.y, rover.d);
-        var newPosition = rover.x.toString() + "-" + rover.y.toString();
-
-        $("#" + newPosition).append(rover.body);
-    }
-
+    // Make rover active
     function activateRover(rover){
         rover.body.addClass("active-rover");
         rover.active = true;
+    }
+
+
+    // Move Rover Forward 1 Tile
+    function moveRover (rover) {
+
+        console.log("From " + rover.x, rover.y, rover.d);
+
+        if (
+            (rover.d == "n" && rover.y == 6) ||
+            (rover.d == "e" && rover.x == 6) ||
+            (rover.d == "s" && rover.y == 1) ||
+            (rover.d == "w" && rover.x == 1)
+        ) {
+            alert("You've reached the edge! You need to turn!")
+        } else {
+
+            if (rover.d === "n") {
+                rover.y += 1;
+            } else if (rover.d === "e") {
+                rover.x += 1;
+            } else if (rover.d === "s") {
+                rover.y -= 1;
+            } else if (rover.d === "w") {
+                rover.x -= 1;
+            }
+
+            console.log("To " + rover.x, rover.y, rover.d);
+            var newPosition = rover.x.toString() + "-" + rover.y.toString();
+
+            $("#" + newPosition).append(rover.body);
+        }
+    }
+
+    // Turn Rover Left
+    function turnLeft(rover) {
+
+        var degrees = 270;
+
+        if (rover.d === "n"){
+            rover.body.css({'transform' : 'rotate(' + degrees + 'deg)'});
+            rover.d = "w";
+        } else if (rover.d === "e"){
+            rover.body.css({'transform' : 'rotate(' + degrees + 'deg)'});
+            rover.d = "n";
+        } else if (rover.d === "s"){
+            rover.body.css({'transform' : 'rotate(' + degrees + 'deg)'});
+            rover.d = "e";
+        } else if (rover.d === "w"){
+            rover.body.css({'transform' : 'rotate(' + degrees + 'deg)'});
+            rover.d = "s";
+        }
+
+        console.log("New direction: " + rover.d);
+        return rover;
     }
 
 })();
