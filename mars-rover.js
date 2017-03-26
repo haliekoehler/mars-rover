@@ -71,6 +71,10 @@
 
         leftButton.click(function(){
             turnLeft(rover1);
+        });
+
+        rightButton.click(function(){
+           turnRight(rover1);
         })
     });
 
@@ -137,20 +141,38 @@
     // Turn Rover Left
     function turnLeft(rover) {
 
-        var degrees = 270;
-
         if (rover.d === "n"){
-            rover.body.css({'transform' : 'rotate(' + degrees + 'deg)'});
+            rover.body.css({'transform' : 'rotate(' + 270 + 'deg)'});
             rover.d = "w";
         } else if (rover.d === "e"){
-            rover.body.css({'transform' : 'rotate(' + degrees + 'deg)'});
+            rover.body.css({'transform' : 'rotate(' + 0 + 'deg)'});
             rover.d = "n";
         } else if (rover.d === "s"){
-            rover.body.css({'transform' : 'rotate(' + degrees + 'deg)'});
+            rover.body.css({'transform' : 'rotate(' + 90 + 'deg)'});
             rover.d = "e";
         } else if (rover.d === "w"){
-            rover.body.css({'transform' : 'rotate(' + degrees + 'deg)'});
+            rover.body.css({'transform' : 'rotate(' + 180 + 'deg)'});
             rover.d = "s";
+        }
+
+        console.log("New direction: " + rover.d);
+        return rover;
+    }
+
+    // Turn Rover Right
+    function turnRight(rover) {
+       if (rover.d === "n"){
+            rover.body.css({'transform' : 'rotate(' + 90 + 'deg)'});
+            rover.d = "e"
+        } else if (rover.d === "e"){
+            rover.body.css({'transform' : 'rotate(' + 180 + 'deg)'});
+            rover.d = "s";
+        } else if (rover.d === "s"){
+            rover.body.css({'transform' : 'rotate(' + 270 + 'deg)'});
+            rover.d = "w";
+        } else if (rover.d === "w"){
+            rover.body.css({'transform' : 'rotate(' + 0 + 'deg)'});
+            rover.d = "n"
         }
 
         console.log("New direction: " + rover.d);
