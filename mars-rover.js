@@ -23,7 +23,7 @@
         '</div>');
 
 
-    var direction = ['n', 'e', 's', 'w'];
+    var direction = ['N', 'E', 'S', 'W'];
 
     var rover1 = new Object ();
         rover1.name = "Rover 1";
@@ -65,16 +65,21 @@
         activateRover(rover1);
         console.log(rover1.active);
 
+        updateLocation();
+
         middleButton.click(function(){
             moveRover(rover1);
+            updateLocation();
         });
 
         leftButton.click(function(){
             turnLeft(rover1);
+            updateLocation();
         });
 
         rightButton.click(function(){
            turnRight(rover1);
+            updateLocation();
         })
     });
 
@@ -113,21 +118,21 @@
         console.log("From " + rover.x, rover.y, rover.d);
 
         if (
-            (rover.d == "n" && rover.y == 6) ||
-            (rover.d == "e" && rover.x == 6) ||
-            (rover.d == "s" && rover.y == 1) ||
-            (rover.d == "w" && rover.x == 1)
+            (rover.d == "N" && rover.y == 6) ||
+            (rover.d == "E" && rover.x == 6) ||
+            (rover.d == "S" && rover.y == 1) ||
+            (rover.d == "W" && rover.x == 1)
         ) {
             alert("You've reached the edge! You need to turn!")
         } else {
 
-            if (rover.d === "n") {
+            if (rover.d === "N") {
                 rover.y += 1;
-            } else if (rover.d === "e") {
+            } else if (rover.d === "E") {
                 rover.x += 1;
-            } else if (rover.d === "s") {
+            } else if (rover.d === "S") {
                 rover.y -= 1;
-            } else if (rover.d === "w") {
+            } else if (rover.d === "W") {
                 rover.x -= 1;
             }
 
@@ -135,24 +140,25 @@
             var newPosition = rover.x.toString() + "-" + rover.y.toString();
 
             $("#" + newPosition).append(rover.body);
+            updateLocation();
         }
     }
 
     // Turn Rover Left
     function turnLeft(rover) {
 
-        if (rover.d === "n"){
+        if (rover.d === "N"){
             rover.body.css({'transform' : 'rotate(' + 270 + 'deg)'});
-            rover.d = "w";
-        } else if (rover.d === "e"){
+            rover.d = "W";
+        } else if (rover.d === "E"){
             rover.body.css({'transform' : 'rotate(' + 0 + 'deg)'});
-            rover.d = "n";
-        } else if (rover.d === "s"){
+            rover.d = "N";
+        } else if (rover.d === "S"){
             rover.body.css({'transform' : 'rotate(' + 90 + 'deg)'});
-            rover.d = "e";
-        } else if (rover.d === "w"){
+            rover.d = "E";
+        } else if (rover.d === "W"){
             rover.body.css({'transform' : 'rotate(' + 180 + 'deg)'});
-            rover.d = "s";
+            rover.d = "S";
         }
 
         console.log("New direction: " + rover.d);
@@ -161,22 +167,38 @@
 
     // Turn Rover Right
     function turnRight(rover) {
-       if (rover.d === "n"){
+       if (rover.d === "N"){
             rover.body.css({'transform' : 'rotate(' + 90 + 'deg)'});
-            rover.d = "e"
-        } else if (rover.d === "e"){
+            rover.d = "E"
+        } else if (rover.d === "E"){
             rover.body.css({'transform' : 'rotate(' + 180 + 'deg)'});
-            rover.d = "s";
-        } else if (rover.d === "s"){
+            rover.d = "S";
+        } else if (rover.d === "S"){
             rover.body.css({'transform' : 'rotate(' + 270 + 'deg)'});
-            rover.d = "w";
-        } else if (rover.d === "w"){
+            rover.d = "W";
+        } else if (rover.d === "W"){
             rover.body.css({'transform' : 'rotate(' + 0 + 'deg)'});
-            rover.d = "n"
+            rover.d = "N"
         }
 
         console.log("New direction: " + rover.d);
         return rover;
+    }
+
+    function updateLocation (){
+        var r1x = rover1.x;
+        var r1y = rover1.y;
+        var r1d = rover1.d;
+        var r2x = rover2.x;
+        var r2y = rover2.y;
+        var r2d = rover2.d;
+
+        $("#r1-x").text(r1x);
+        $("#r1-y").text(r1y);
+        $("#r1-d").text(r1d);
+        $("#r2-x").text(r2x);
+        $("#r2-y").text(r2y);
+        $("#r2-d").text(r2d);
     }
 
 })();
