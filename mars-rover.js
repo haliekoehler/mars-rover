@@ -6,53 +6,44 @@
 
 (function () {
 
-    // Create body of two rovers
-    var rover1Build = $('<div id="rover1" class="rover">' +
-        '<div class="number">1</div>' +
-        '<div class="wheel wheel1"></div>' +
-        '<div class="wheel wheel2"></div>' +
-        '<div class="wheel wheel3"></div>' +
-        '<div class="wheel wheel4"></div>' +
-        '</div>');
-    var rover2Build = $('<div id="rover2" class="rover">' +
-        '<div class="number">2</div>' +
-        '<div class="wheel wheel1"></div>' +
-        '<div class="wheel wheel2"></div>' +
-        '<div class="wheel wheel3"></div>' +
-        '<div class="wheel wheel4"></div>' +
-        '</div>');
-
-
-    var direction = ['N', 'E', 'S', 'W'];
-
-    var rover1 = new Object ();
-        rover1.name = "Rover 1";
-        rover1.body = rover1Build;
-        rover1.x = 1;
-        rover1.y = 1;
-        rover1.d = direction[0];
-        rover1.active = false;
-        // rover1.forward = moveRover(rover1);
-        // rover1.left = turnLeft(rover1);
-        // rover1.right = turnRight(rover1);
-
-    var rover2 = new Object();
-        rover2.name = "Rover 2";
-        rover2.body = rover2Build;
-        rover2.x = 6;
-        rover2.y = 1;
-        rover2.d = direction[0];
-        rover2.active = false;
-        // rover2.forward = moveRover(rover2);
-        // rover2.left = turnLeft(rover2);
-        // rover2.right = turnRight(rover2);
-
-    var rovers = [rover1, rover2];
-
+    // -- BUTTONS -- //
     var startButton = $('#start-btn');
     var leftButton = $('#l-btn');
     var middleButton = $('#m-btn');
     var rightButton = $('#r-btn');
+
+    var direction = ['N', 'E', 'S', 'W'];
+
+    // -- ROVERS -- //
+    var rover1 = new Object ();
+        rover1.name = "Rover 1";
+        rover1.body = $('<div id="rover1" class="rover">' +
+            '<div class="number">1</div>' +
+            '<div class="wheel wheel1"></div>' +
+            '<div class="wheel wheel2"></div>' +
+            '<div class="wheel wheel3"></div>' +
+            '<div class="wheel wheel4"></div>' +
+            '</div>');
+        rover1.x = 1;
+        rover1.y = 1;
+        rover1.d = direction[0];
+        rover1.active = false;
+
+    var rover2 = new Object();
+        rover2.name = "Rover 2";
+        rover2.body = $('<div id="rover2" class="rover">' +
+            '<div class="number">2</div>' +
+            '<div class="wheel wheel1"></div>' +
+            '<div class="wheel wheel2"></div>' +
+            '<div class="wheel wheel3"></div>' +
+            '<div class="wheel wheel4"></div>' +
+            '</div>');
+        rover2.x = 6;
+        rover2.y = 1;
+        rover2.d = direction[0];
+        rover2.active = false;
+
+    var roversArray = [rover1, rover2];
 
     disable(leftButton, middleButton, rightButton);
 
@@ -65,6 +56,9 @@
         enable(leftButton, middleButton, rightButton);
         disable(startButton);
 
+        activateRover(rover1);
+        console.log(rover1.active);
+
         middleButton.click(function(){
             moveRover(rover1);
             updateLocationText();
@@ -76,45 +70,55 @@
         });
 
         rightButton.click(function(){
-           turnRight(rover1);
+            turnRight(rover1);
             updateLocationText();
         });
-
-        activateRover(rover1);
-        console.log(rover1.active);
 
         updateLocationText();
     });
 
 
-    // State Game
-    function startGame (){
+    // Start Game
+    function startGame (roversArray){
+
         var activeRover;
 
+        if (roversArray[0].active == true && roversArray[1].active == false){
+           activeRover = roversArray[0];
+           return activeRover;
+        } else if (roversArray[1].active == true && roversArray[0] == true){
+            activeRover = roversArray[1];
+            return activeRover;
+        }
 
+        activateRover(roversArray[0]);
+        updateLocationText();
+
+        middleButton.click(function(){
+            moveRover(activeRover);
+            updateLocationText();
+        });
+
+        leftButton.click(function(){
+            turnLeft(activeRover);
+            updateLocationText();
+        });
+
+        rightButton.click(function(){
+            turnRight(activeRover);
+            updateLocationText();
+        });
     }
 
 
     // Switch between Rovers
     function toggleRovers (){
-        for (var i = 0; i < rovers.length; i++) {
-            if(rovers[i].active == true) {
-                deactivateRover (rovers[i]);
-            } else if (rovers[i] == false){
-                deactivateRover(rovers[i])
+        for (var i = 0; i < roversArray.length; i++) {
+            if(roversArray[i].active == false) {
+                activateRover(roversArray[i]);
+            } else if (roversArray[i] == true){
+                deactivateRover(roversArray[i])
             }
-        }
-    }
-
-    // Disable Button(s)
-    function disable() {
-        for (var i = 0; i < arguments.length; i++){
-        arguments[i].attr("disabled", true)
-        }
-    // Enable Button(s)
-    function enable() {
-        for (var i = 0; i < arguments.length; i++){
-            arguments[i].attr("disabled", false)
         }
     }
 
@@ -124,6 +128,20 @@
 
         $("#" + startingPoint1).append(rover1.body);   // Rover 1 starting point
         $("#" + startingPoint2).append(rover2.body);   // Rover 2 starting point
+    }
+
+    // Disable Button(s)
+    function disable() {
+        for (var i = 0; i < arguments.length; i++) {
+            arguments[i].attr("disabled", true)
+        }
+    }
+
+    // Enable Button(s)
+    function enable() {
+        for (var i = 0; i < arguments.length; i++){
+            arguments[i].attr("disabled", false)
+        }
     }
 
     // Make rover active
