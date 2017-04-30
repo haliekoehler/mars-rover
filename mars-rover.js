@@ -6,12 +6,15 @@
 
 (function () {
 
+    var game = [];
+
     // -- BUTTONS -- //
     var startButton = $('#start-btn');
     var leftButton = $('#l-btn');
     var middleButton = $('#m-btn');
     var rightButton = $('#r-btn');
 
+    // -- POSSIBLE DIRECTIONS --//
     var direction = ['N', 'E', 'S', 'W'];
 
     // -- ROVERS -- //
@@ -56,47 +59,33 @@
         enable(leftButton, middleButton, rightButton);
         disable(startButton);
 
-        activateRover(rover1);
-        console.log(rover1.active);
-
-        middleButton.click(function(){
-            moveRover(rover1);
-            updateLocationText();
-        });
-
-        leftButton.click(function(){
-            turnLeft(rover1);
-            updateLocationText();
-        });
-
-        rightButton.click(function(){
-            turnRight(rover1);
-            updateLocationText();
-        });
-
-        updateLocationText();
+        startGame(rover1, rover2);
     });
 
-
     // Start Game
-    function startGame (roversArray){
+    function startGame (rover1, rover2){
 
-        var activeRover;
+        console.log('Game Started...');
 
-        if (roversArray[0].active == true && roversArray[1].active == false){
-           activeRover = roversArray[0];
-           return activeRover;
-        } else if (roversArray[1].active == true && roversArray[0] == true){
-            activeRover = roversArray[1];
-            return activeRover;
+        // Switch between Rovers
+        function toggleRovers (){
+            if (rover1.active == false){
+                activateRover(rover1);
+                deactivateRover(rover2);
+                return rover1;
+            } else if (rover1.active == true){
+                deactivateRover(rover1);
+                activateRover(rover2);
+                return rover2;
+            }
         }
 
-        activateRover(roversArray[0]);
-        updateLocationText();
+        var activeRover = toggleRovers();
 
         middleButton.click(function(){
             moveRover(activeRover);
             updateLocationText();
+            toggleRovers();
         });
 
         leftButton.click(function(){
@@ -111,16 +100,6 @@
     }
 
 
-    // Switch between Rovers
-    function toggleRovers (){
-        for (var i = 0; i < roversArray.length; i++) {
-            if(roversArray[i].active == false) {
-                activateRover(roversArray[i]);
-            } else if (roversArray[i] == true){
-                deactivateRover(roversArray[i])
-            }
-        }
-    }
 
     function startRovers (){
         var startingPoint1 = rover1.x.toString() + "-" + rover1.y.toString();
@@ -130,37 +109,33 @@
         $("#" + startingPoint2).append(rover2.body);   // Rover 2 starting point
     }
 
-    // Disable Button(s)
+    // Enable & Disable Button(s)
+    function enable() {
+        for (var i = 0; i < arguments.length; i++){
+            arguments[i].attr("disabled", false)
+        }
+    }
     function disable() {
         for (var i = 0; i < arguments.length; i++) {
             arguments[i].attr("disabled", true)
         }
     }
 
-    // Enable Button(s)
-    function enable() {
-        for (var i = 0; i < arguments.length; i++){
-            arguments[i].attr("disabled", false)
-        }
-    }
-
-    // Make rover active
+    // Activate and Deactivate Rovers
     function activateRover(rover){
         rover.body.addClass("active-rover");
         rover.active = true;
+        console.log(rover.name + ' is activated.');
     }
-
     function deactivateRover (rover) {
         rover.body.removeClass("active-rover");
         rover.active = false;
+        console.log(rover.name + ' is DEactivated')
     }
 
 
     // Move Rover Forward 1 Tile
     function moveRover (rover) {
-
-        console.log("From " + rover.x, rover.y, rover.d);
-
         if (
             (rover.d == "N" && rover.y == 6) ||
             (rover.d == "E" && rover.x == 6) ||
@@ -180,11 +155,11 @@
                 rover.x -= 1;
             }
 
-            console.log("To " + rover.x, rover.y, rover.d);
             var newPosition = rover.x.toString() + "-" + rover.y.toString();
 
             $("#" + newPosition).append(rover.body);
             updateLocationText();
+            updateGame();
         }
     }
 
@@ -205,7 +180,6 @@
             rover.d = "S";
         }
 
-        console.log("New direction: " + rover.d);
         return rover;
     }
 
@@ -225,7 +199,6 @@
             rover.d = "N"
         }
 
-        console.log("New direction: " + rover.d);
         return rover;
     }
 
@@ -244,6 +217,15 @@
         $("#r2-x").text(r2x);
         $("#r2-y").text(r2y);
         $("#r2-d").text(r2d);
+    }
+
+    function updateGame(){
+        var updateRover1 = (rover1.x.toString() + ", " + rover1.y.toString());
+        var updateRover2 = (rover2.x.toString() + ", " + rover2.y.toString());
+
+        game.push(updateRover1);
+        game.push(updateRover2);
+        console.log(game);
     }
 
 })();
