@@ -6,7 +6,7 @@
 
 (function () {
 
-    var game = [];
+    var board = [];
 
     // -- BUTTONS -- //
     var startButton = $('#start-btn');
@@ -223,19 +223,19 @@
         var updateRover1 = (rover1.x.toString() + ", " + rover1.y.toString());
         var updateRover2 = (rover2.x.toString() + ", " + rover2.y.toString());
 
-        var found1 = $.inArray(updateRover1, game);
-        var found2 = $.inArray(updateRover2, game);
+        var found1 = $.inArray(updateRover1, board);
+        var found2 = $.inArray(updateRover2, board);
 
         if (found1 >= 0){
-            console.log(game);
+            console.log(board);
         } else {
-            game.push(updateRover1)
+            board.push(updateRover1)
         }
 
         if (found2 >= 0){
-            console.log(game);
+            console.log(board);
         } else {
-            game.push(updateRover2)
+            board.push(updateRover2)
         }
     }
 
