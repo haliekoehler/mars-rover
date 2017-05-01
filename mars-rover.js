@@ -100,7 +100,7 @@
     }
 
 
-
+    // Place Rovers on Board
     function startRovers (){
         var startingPoint1 = rover1.x.toString() + "-" + rover1.y.toString();
         var startingPoint2 = rover2.x.toString() + "-" + rover2.y.toString();
@@ -223,9 +223,20 @@
         var updateRover1 = (rover1.x.toString() + ", " + rover1.y.toString());
         var updateRover2 = (rover2.x.toString() + ", " + rover2.y.toString());
 
-        game.push(updateRover1);
-        game.push(updateRover2);
-        console.log(game);
+        var found1 = $.inArray(updateRover1, game);
+        var found2 = $.inArray(updateRover2, game);
+
+        if (found1 >= 0){
+            console.log(game);
+        } else {
+            game.push(updateRover1)
+        }
+
+        if (found2 >= 0){
+            console.log(game);
+        } else {
+            game.push(updateRover2)
+        }
     }
 
 })();
